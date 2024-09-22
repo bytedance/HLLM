@@ -1,0 +1,32 @@
+# general
+seed: 2020
+state: INFO
+reproducibility: True
+checkpoint_dir: 'saved'
+show_progress: False
+
+log_wandb: False
+wandb_project: 'REC'
+MAX_ITEM_LIST_LENGTH: 10
+
+data_path: ../dataset/                       # dataset path
+dataset: Pixel200K                        # dataset name
+
+loss: nce
+
+# training settings
+epochs: 200
+train_batch_size: 64  
+optim_args: {
+  learning_rate: 0.0001,
+  weight_decay: 0.1
+}
+
+# eval settings
+eval_batch_size: 1024
+topk: [5,10,50,200]
+metrics: ['Recall', 'NDCG']
+valid_metric: NDCG@200
+metric_decimal_place: 7
+eval_step: 1 
+stopping_step: 10

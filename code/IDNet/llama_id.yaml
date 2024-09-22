@@ -1,0 +1,13 @@
+model: LLMIDRec
+user_pretrain_dir: user_pretrain_dir
+user_llm_init: False
+use_ft_flash_attn: True
+item_embed_dim: 512
+
+show_progress: True
+
+# better to use cosine scheduler
+scheduler_args: {
+  type: cosine,
+  warmup: 0.0
+}

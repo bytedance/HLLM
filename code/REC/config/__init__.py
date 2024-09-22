@@ -1,0 +1,1 @@
+from .configurator import Config

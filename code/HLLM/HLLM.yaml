@@ -1,0 +1,6 @@
+model: HLLM
+item_pretrain_dir: item_pretrain_dir # Item and User LLM are initialized by pretrain_dir
+item_llm_init: True
+user_pretrain_dir: user_pretrain_dir
+user_llm_init: True
+use_ft_flash_attn: True
