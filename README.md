@@ -27,7 +27,7 @@ sentencepiece==0.2.0 [optional for Baichuan2]
 ```
 2. Prepare `PixelRec` and `Amazon Book Reviews` Datasets:
     1. Download `PixelRec` Interactions and Item Information from [PixelRec](https://github.com/westlake-repl/PixelRec) and put into the dataset and information folder.
-    2. Download `Amazon Book Reviews` [Interactions](http://snap.stanford.edu/data/amazon/productGraph/categoryFiles/ratings_Books.csv) and [Item Information](http://snap.stanford.edu/data/amazon/productGraph/categoryFiles/meta_Books.json.gz), process them by `process_books.py`, and put into the dataset and information folder. We also provide [Interactions](https://huggingface.co/ByteDance/HLLM/resolve/main/Interactions/amazon_books.csv) and [Item Information](https://huggingface.co/ByteDance/HLLM/resolve/main/Interactions/amazon_books.csv) of Books after processing.
+    2. Download `Amazon Book Reviews` [Interactions](http://snap.stanford.edu/data/amazon/productGraph/categoryFiles/ratings_Books.csv) and [Item Information](http://snap.stanford.edu/data/amazon/productGraph/categoryFiles/meta_Books.json.gz), process them by `process_books.py`, and put into the dataset and information folder. We also provide [Interactions](https://huggingface.co/ByteDance/HLLM/resolve/main/Interactions/amazon_books.csv) and [Item Information](https://huggingface.co/ByteDance/HLLM/resolve/main/ItemInformation/amazon_books.csv) of Books after processing.
     3. Please note that Interactions and Item Information should be put into two folders like:
         ```bash
         ├── dataset # Store Interactions
