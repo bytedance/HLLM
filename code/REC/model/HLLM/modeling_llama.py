@@ -47,36 +47,11 @@ from transformers.utils import (
 )
 
 try:
-    from apex.normalization.fused_layer_norm import fused_rms_norm_affine as apex_rms_norm
-except ImportError as e:
-    apex_rms_norm = None
-
-try:
-    from flash_attn.ops.rms_norm import rms_norm as flash_attn_rms_norm
-except ImportError as e:
-    flash_attn_rms_norm = None
-
-try:
-    from xformers.ops import swiglu as xformers_swiglu
-except ImportError as e:
-    xformers_swiglu = None
-
-try:
     from .flash_self_attn import compute_flash_attention
 except ImportError as e:
     compute_flash_attention = None
 
-# from .xperf_training import FTFlashAttention, has_lego_ops
-
 logger = logging.get_logger(__name__)
-
-try:
-    from xformers import ops as xops
-except ImportError:
-    xops = None
-    logger.warning(
-        "Xformers is not installed correctly. If you want to use memory_efficient_attention to accelerate training use the following command to install Xformers\npip install xformers."
-    )
 
 _CONFIG_FOR_DOC = "LlamaConfig"
 
@@ -298,12 +273,6 @@ class LlamaRMSNorm(nn.Module):
         self.variance_epsilon = eps
 
     def forward(self, hidden_states):
-        if flash_attn_rms_norm is not None:
-            return flash_attn_rms_norm(hidden_states, self.weight, self.variance_epsilon)
-        if apex_rms_norm is not None:
-            return apex_rms_norm(
-                hidden_states, self.weight, self.weight.size(), self.variance_epsilon
-            )
         input_dtype = hidden_states.dtype
         hidden_states = hidden_states.to(torch.float32)
         variance = hidden_states.pow(2).mean(-1, keepdim=True)
@@ -512,18 +481,7 @@ class LlamaMLP(nn.Module):
             ]
             down_proj = sum(down_proj)
         else:
-            if xformers_swiglu is not None:
-                down_proj = xformers_swiglu(
-                    x,
-                    self.gate_proj.weight,
-                    self.gate_proj.bias,
-                    self.up_proj.weight,
-                    self.up_proj.bias,
-                    self.down_proj.weight,
-                    self.down_proj.bias,
-                )
-            else:
-                down_proj = self.down_proj(self.act_fn(self.gate_proj(x)) * self.up_proj(x))
+            down_proj = self.down_proj(self.act_fn(self.gate_proj(x)) * self.up_proj(x))
 
         return down_proj
 

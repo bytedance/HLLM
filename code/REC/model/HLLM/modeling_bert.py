@@ -54,21 +54,6 @@ from transformers.utils import (
 from transformers.configuration_utils import PretrainedConfig
 
 try:
-    from apex.normalization.fused_layer_norm import fused_rms_norm_affine as apex_rms_norm
-except ImportError as e:
-    apex_rms_norm = None
-
-try:
-    from flash_attn.ops.rms_norm import rms_norm as flash_attn_rms_norm
-except ImportError as e:
-    flash_attn_rms_norm = None
-
-try:
-    from xformers.ops import swiglu as xformers_swiglu
-except ImportError as e:
-    xformers_swiglu = None
-
-try:
     from .flash_self_attn import compute_flash_attention
 except ImportError as e:
     compute_flash_attention = None
